@@ -12,7 +12,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const BannerSlider = () => {
+
+const BannerSlider = ({result}) => {
+  
+
+
   const settings = {
     infinite: true,
     speed: 500,
@@ -23,10 +27,10 @@ const BannerSlider = () => {
   return (
     <section>
       <Slider {...settings}>
-        {Array.from(Array(4).keys()).map((key) => (
+        {result?.data.map((item, key) => (
           <div className="w-full h-[calc(100vh-88px)] relative" key={key}>
             <img
-              src={`${imgPath}/slider1.jpg`}
+              src={`${imgPath}/${item.recipe_image}`}
               alt=""
               className="w-full h-[110%] object-cover"
             />
@@ -36,27 +40,24 @@ const BannerSlider = () => {
               className="absolute top-1/2 md:left-[calc((100vw-1200px)/2)] p-4 text-white max-w-[500px]
         -translate-y-1/2"
             >
-              <h2 className="text-5xl">Chicken Tinola</h2>
+              <h2 className="text-5xl">{item.recipe_title}</h2>
               <ul className="flex gap-5 mb-5">
                 <li className="flex gap-2 items-center">
-                  <Clock /> 30mis
+                  <Clock />
+                  {item.recipe_prep_time}
                 </li>
                 <li className="flex gap-2 items-center">
-                  <Utensils /> 4 serving
+                  <Utensils /> {item.recipe_serving} servings
                 </li>
                 <li className="flex gap-2 items-center">
                   <HandPlatter />
-                  Chicken
+                  {item.recipe_category}
                 </li>
               </ul>
-              <p className="mb-5">
-                This chicken tinola recipe highlights the rich flavors of Knorr
-                Chicken Cubes and the distinct aroma of ginger. Make this
-                version to soothe your soul.
-              </p>
+              <p className="mb-5">{item.recipe_description}</p>
 
               <Link
-                to="/"
+                to={`/recipe/single/${item.recipe_title.replaceAll(" ", "-")}`}
                 className="flex gap-3 items-center hover:text-orange group transition-all font-bold"
               >
                 View Full Recipe{" "}

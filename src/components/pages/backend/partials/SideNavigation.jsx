@@ -31,7 +31,7 @@ const SideNavigation = ({ menu }) => {
               <li
                 className={`${
                   menu === item.slug.replaceAll("/admin/", "")
-                    ? "border-accent bg-orange opacity-100 text-white"
+                    ? "border-accent bg-alert opacity-100 text-white"
                     : ""
                 } p-2 mb-2 border border-transparent rounded-md opacity-60 hover:opacity-100`}
                 key={key}

@@ -9,6 +9,8 @@ import { setIsAdd } from "@/components/store/storeAction";
 import RecipeTable from "./RecipeTable";
 import ModalAddRecipe from "./ModalAddRecipe";
 import { imgPath } from "@/components/helpers/functions-general";
+import ToastSuccess from "../partials/ToastSuccess";
+import ModalValidation from "../partials/modals/ModalValidation";
 
 const Recipe = () => {
   const { dispatch, store } = React.useContext(StoreContext);
@@ -42,9 +44,9 @@ const Recipe = () => {
           </main>
         </div>
       </section>
-      {store.validate && <ModalValidatioN />}
+      {store.validate && <ModalValidation />}
       {store.error && <ModalErroR />}
-      {store.success && <ToastSuccesS />}
+      {store.success && <ToastSuccess />}
       {store.isAdd && <ModalAddRecipe itemEdit={itemEdit} />}
     </>
   );
