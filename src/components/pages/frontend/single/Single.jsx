@@ -71,7 +71,7 @@ const Single = () => {
                   getSingleRecipe()[0].recipe_description}
               </p>
 
-              <div className="grid grid-cols-[1.5fr_3fr] gap-10 max-w-[900px] mx-auto mt-10 text-left">
+              <div className="grid md:grid-cols-[1.5fr_3fr] gap-10 max-w-[900px] mx-auto mt-10 text-left">
                 <div>
                   <h3>Ingredients</h3>
                   {getSingleRecipe() !== undefined &&
