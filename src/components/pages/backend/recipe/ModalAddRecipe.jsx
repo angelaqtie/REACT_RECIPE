@@ -104,7 +104,7 @@ const ModalAddRecipe = ({ itemEdit }) => {
                     ? photo?.name || ""
                     : itemEdit?.recipe_image || "",
               });
-              uploadPhoto();
+              uploadPhoto(); 
             }}
           >
             {(props) => {
