@@ -16,104 +16,87 @@ import {
 } from "@/components/store/storeAction";
 import ModalDelete from "../partials/modals/ModalDelete";
 import ModalConfirm from "../partials/modals/ModalConfirm";
+import Status from "@/components/partials/Status";
 import useQueryData from "@/components/custom-hook/useQueryData";
 import ModalArchive from "@/components/partials/modal/ModalArchive";
 import ModalRestore from "@/components/partials/modal/ModalRestore";
 
-const RecipeTable = ({ setItemEdit }) => {
+const CategoryTable = ({ setIsCategoryEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [id, setId] = React.useState(null);
-
-  const {
-    isLoading,
-    isFetching,
-    error,
-    data: result,
-  } = useQueryData(
-    `/v2/recipe`, // endpoint
-    "get", // method
-    "recipe"
-  );
+  const [id, setIsId] = React.useState("");
 
   let counter = 1;
 
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
-    setItemEdit(item);
+    setIsCategoryEdit(item);
   };
   const handleDelete = (item) => {
     dispatch(setIsDelete(true));
-    setId(item.recipe_aid);
+    setIsId(item.category_aid);
   };
   const handleRestore = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.recipe_aid);
+    setIsId(item.category_aid);
   };
   const handleArchive = (item) => {
     dispatch(setIsArchive(true));
-    setId(item.recipe_aid);
+    setIsId(item.category_aid);
   };
+
+  const {
+    isFetching,
+    error,
+    data: result,
+    status,
+  } = useQueryData(
+    `/v2/category`, //endpoint
+    "get", //method
+    "category" //key
+  );
+
   return (
     <>
       <div className="p-4 bg-secondary mt-10 rounded-md border border-line relative">
-        {/* {!isLoading || (isFetching && <SpinnerTable />)}{" "} */}
+        {/* <SpinnerTable /> */}
         <div className="table-wrapper custom-scroll">
+          {/* <TableLoader count={20} cols={4} /> */}
           <table>
             <thead>
               <tr>
                 <th>#</th>
                 <th>Status</th>
                 <th className="w-[50%]">Title</th>
-                <th className="">Category</th>
-                <th className="">Level</th>
-
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {((isLoading && !isFetching) || result?.data.length === 0) && (
-                <tr>
-                  <td colSpan="100%">
-                    {isLoading ? (
-                      <TableLoader count={30} cols={6} />
-                    ) : (
-                      <IconNoData />
-                    )}
-                  </td>
-                </tr>
-              )}
+              {/* <tr>
+              <td colSpan={100}>
+                <IconNoData />
+              </td>
+            </tr> */}
 
-              {error && (
-                <tr>
-                  <td colSpan="100%">
-                    <IconServerError />
-                  </td>
-                </tr>
-              )}
-              {result?.data.map((item, key) => {
-                return (
+              {/* <tr>
+              <td colSpan={100}>
+                <IconServerError />
+              </td>
+            </tr> */}
+              {result?.count > 0 &&
+                result.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}</td>
                     <td>
-                      <Pills isActive={item.recipe_is_active} />
+                      {item.category_is_active === 1 ? (
+                        <Status text="Active" />
+                      ) : (
+                        <Status text="InActive" />
+                      )}
                     </td>
-                    <td title={`${item.recipe_title}`}>{item.recipe_title}</td>
-                    <td
-                      className="capitalize"
-                      title={`${item.recipe_category_id}`}
-                    >
-                      {item.category_title}
-                    </td>
-                    <td
-                      className="capitalize"
-                      title={`${item.recipe_recipe_level_id}`}
-                    >
-                      {item.level_title}
-                    </td>
-
+                    <td>{item.category_title}</td>
                     <td>
                       <ul className="table-action">
-                        {item.recipe_is_active ? (
+                        {item.category_is_active === 1 ? (
                           <>
                             <li>
                               <button
@@ -147,7 +130,7 @@ const RecipeTable = ({ setItemEdit }) => {
                             </li>
                             <li>
                               <button
-                                className="tooltip"
+                                className="tool-tip"
                                 data-tooltip="Delete"
                                 onClick={() => handleDelete(item)}
                               >
@@ -159,8 +142,7 @@ const RecipeTable = ({ setItemEdit }) => {
                       </ul>
                     </td>
                   </tr>
-                );
-              })}
+                ))}
             </tbody>
           </table>
 
@@ -169,24 +151,30 @@ const RecipeTable = ({ setItemEdit }) => {
       </div>
 
       {store.isDelete && (
-        <ModalDelete mysqlApiDelete={`/v2/recipe/${id}`} queryKey="recipe" />
+        <ModalDelete
+          setIsDelete={setIsDelete}
+          mysqlApiDelete={`/v2/category/${id}`}
+          queryKey={"category"}
+        />
       )}
       {store.isArchive && (
         <ModalArchive
           setIsArchive={setIsArchive}
-          mysqlEndpoint={`/v2/recipe/active/${id}`}
-          queryKey={"recipe"}
+          mysqlEndpoint={`/v2/category/active/${id}`}
+          queryKey={"category"}
         />
       )}
       {store.isRestore && (
         <ModalRestore
           setIsRestore={setIsRestore}
-          mysqlEndpoint={`/v2/recipe/active/${id}`}
-          queryKey={"recipe"}
+          mysqlEndpoint={`/v2/category/active/${id}`}
+          queryKey={"category"}
         />
       )}
+
+      {store.isView && <ModalView movieInfo={movieInfo} />}
     </>
   );
 };
 
-export default RecipeTable;
+export default CategoryTable;

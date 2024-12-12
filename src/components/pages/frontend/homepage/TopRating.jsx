@@ -11,7 +11,8 @@ const TopRating = () => {
         <div className="grid grid-container-top gap-3">
           {Array.from(Array(6).keys()).map((key) => (
             <div
-              className={`grid-item relative h-full w-full bg-black group grid-name-top-${key} overflow-hidden`} key={key}
+              className={`grid-item relative h-full w-full bg-black group grid-name-top-${key} overflow-hidden`}
+              key={key}
             >
               <img
                 src={`${imgPath}/slider3.jpg`}
