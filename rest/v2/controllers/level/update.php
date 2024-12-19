@@ -17,10 +17,10 @@ if (array_key_exists("levelid", $_GET)) {
   $level->level_datetime = date("Y-m-d H:i:s");
   checkId($level->level_aid);
 
-//checks current data to avoid same entries from being updated
-// $level_title_old = checkIndex($data, 'level_title_old');
-// compareName($level, $level_title_old, $level->level_title);
-// checkId($level->level_aid);
+  //checks current data to avoid same entries from being updated
+  $level_title_old = checkIndex($data, 'level_title_old');
+  compareName($level, $level_title_old, $level->level_title);
+  checkId($level->level_aid);
 
   // update
   $query = checkUpdate($level);

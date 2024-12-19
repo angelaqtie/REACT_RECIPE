@@ -5,13 +5,13 @@ require '../../core/header.php';
 require '../../core/functions.php';
 // require 'functions.php';
 // use needed classes
-require '../../models/category/Category.php';
+require '../../models/level/Level.php';
 
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$category = new Category($conn);
+$level = new Level($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -20,19 +20,19 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("start", $_GET)) {
         // get data
         // get task id from query string
-        $category->category_start = $_GET['start'];
-        $category->category_total = 11;
+        $level->level_start = $_GET['start'];
+        $level->level_total = 1;
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkLimitId($category->category_start, $category->category_total);
+        checkLimitId($level->level_start, $level->level_total);
 
-        $query = checkReadLimit($category);
-        $total_result = checkReadAll($category);
+        $query = checkReadLimit($level);
+        $total_result = checkReadAll($level);
         http_response_code(200);
         checkReadQuery(
             $query,
             $total_result,
-            $category->category_total,
-            $category->category_start
+            $level->level_total,
+            $level->level_start
         );
     }
     // return 404 error if endpoint not available

@@ -5,12 +5,12 @@ import Searchbar from "../partials/Searchbar";
 import { Plus } from "lucide-react";
 import CategoryTable from "./CategoryTable";
 import Footer from "../partials/Footer";
-import ModalValidation from "../partials/modals/ModalValidation";
 import ModalError from "../partials/modals/ModalError";
 import ToastSuccess from "../partials/ToastSuccess";
 import { setIsAdd } from "@/components/store/storeAction";
 import { StoreContext } from "@/components/store/storeContext";
 import ModalCategory from "./ModalCategory";
+import ModalValidation from "../partials/modals/ModalValidation";
 
 const Category = () => {
   const { dispatch, store } = React.useContext(StoreContext);
@@ -30,7 +30,7 @@ const Category = () => {
             <Header title="Category" subtitle="Manage Kiosk Category" />
             <div className="p-8">
               <div className="flex justify-between items-center">
-                <Searchbar />
+                <div></div>
                 <button className="btn btn-add" onClick={handleAdd}>
                   <Plus size={16} /> Add New
                 </button>
@@ -47,7 +47,7 @@ const Category = () => {
         </div>
       </section>
       {store.validate && <ModalValidation />}
-      {/* {store.error && <ModalError />} */}
+      {store.error && <ModalError />}
       {store.success && <ToastSuccess />}
       {store.isAdd && (
         <ModalCategory

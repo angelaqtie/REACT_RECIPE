@@ -28,7 +28,7 @@ class Recipe
     public $level_created;
 
     public $connection;
-    public $lastInsertedId; 
+    public $lastInsertedId;
 
     public $recipe_start;
     public $recipe_total;
@@ -52,7 +52,7 @@ class Recipe
 
 
 
-     public function readAll()
+    public function readAll()
     {
         try {
             $sql = "select * ";
@@ -75,7 +75,7 @@ class Recipe
     public function readLimit()
     {
         try {
-             $sql = "select * ";
+            $sql = "select * ";
             $sql .= "from ";
             $sql .= "{$this->tblrecipe} as recipe, ";
             $sql .= "{$this->tblCategory} as category, ";
@@ -97,7 +97,7 @@ class Recipe
         return $query;
     }
 
-     // read by id
+    // read by id
     public function readById()
     {
         try {
@@ -113,8 +113,80 @@ class Recipe
         return $query;
     }
 
+    public function search()
+    {
+        try {
+            $sql = "select * ";
+            $sql .= "from ";
+            $sql .= "{$this->tblrecipe} as recipe, ";
+            $sql .= "{$this->tblCategory} as category, ";
+            $sql .= "{$this->tblLevel} as level ";
+            $sql .= "where category.category_aid = recipe.recipe_category_id ";
+            $sql .= "and level.level_aid = recipe.recipe_level_id ";
+            $sql .= "and recipe.recipe_title like :recipe_title ";
+            $sql .= "order by recipe_is_active desc, ";
+            $sql .= "recipe_title ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "recipe_title" => "%{$this->recipe_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
- public function create()
+    public function filterActive()
+    {
+        try {
+            $sql = "select * ";
+            $sql .= "from ";
+            $sql .= "{$this->tblrecipe} as recipe, ";
+            $sql .= "{$this->tblCategory} as category, ";
+            $sql .= "{$this->tblLevel} as level ";
+            $sql .= "where category.category_aid = recipe.recipe_category_id ";
+            $sql .= "and level.level_aid = recipe.recipe_level_id ";
+            $sql .= "and recipe.recipe_is_active like :recipe_is_active ";
+            $sql .= "order by recipe_is_active desc, ";
+            $sql .= "recipe_title ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "recipe_is_active" => $this->recipe_is_active,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function filterActiveSearch()
+    {
+        try {
+            $sql = "select * ";
+            $sql .= "from ";
+            $sql .= "{$this->tblrecipe} as recipe, ";
+            $sql .= "{$this->tblCategory} as category, ";
+            $sql .= "{$this->tblLevel} as level ";
+            $sql .= "where category.category_aid = recipe.recipe_category_id ";
+            $sql .= "and level.level_aid = recipe.recipe_level_id ";
+            $sql .= "and recipe.recipe_is_active like :recipe_is_active ";
+            $sql .= "order by recipe_is_active desc, ";
+            $sql .= "recipe_title ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "recipe_is_active" => $this->recipe_is_active,
+                "recipe_title" => "%{$this->recipe_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+
+
+    public function create()
     {
         try {
             $sql = "insert into {$this->tblrecipe} ";
@@ -166,25 +238,9 @@ class Recipe
 
 
 
-    public function search()
-    {
-        try {
-            $sql = "select * from {$this->tblrecipe} ";
-            $sql .= "where recipe_title like :recipe_title ";
-            $sql .= "order by recipe_is_active desc ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "recipe_title" => "%{$this->recipe_search}%",
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
 
-
-        // update
-     public function update()
+    // update
+    public function update()
     {
         try {
             $sql = "update {$this->tblrecipe} set ";

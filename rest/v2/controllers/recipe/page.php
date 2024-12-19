@@ -3,7 +3,7 @@
 require '../../core/header.php';
 // use needed functions
 require '../../core/functions.php';
-// require 'functions.php';
+
 // use needed classes
 require '../../models/recipe/Recipe.php';
 
@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $recipe->recipe_start = $_GET['start'];
-        $recipe->recipe_total = 11;
+        $recipe->recipe_total = 3;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($recipe->recipe_start, $recipe->recipe_total);
 

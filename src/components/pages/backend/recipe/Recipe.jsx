@@ -25,13 +25,12 @@ const Recipe = () => {
     <>
       <section className="layout-main ">
         <div className="layout-division ">
-          
           <SideNavigation menu="recipe" />
           <main>
             <Header title="Recipe" subtitle="Manage Kiosk Recipe" />
             <div className="p-8">
               <div className="flex justify-between items-center">
-                <Searchbar />
+                <div></div>
                 <button className="btn btn-add" onClick={handleAdd}>
                   <Plus size={16} /> Add New
                 </button>

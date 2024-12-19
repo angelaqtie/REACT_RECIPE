@@ -56,6 +56,8 @@ const ModalAddLevel = ({ isLevelEdit, setIsLevelEdit }) => {
 
   const initVal = {
     level_title: isLevelEdit ? isLevelEdit.level_title : " ",
+
+    level_title_old: isLevelEdit ? isLevelEdit.level_title : " ",
   };
 
   const yupSchema = Yup.object({
@@ -97,8 +99,7 @@ const ModalAddLevel = ({ isLevelEdit, setIsLevelEdit }) => {
                     </div>
                     <div className="form-action flex p-4 justify-end gap-3">
                       <button className="btn btn-accent" type="submit">
-                        <SpinnerButton />
-                        {isLevelEdit ? "Add" : "Save"}
+                        {mutation.isPending ? <SpinnerButton /> : "Save"}
                       </button>
                       <button
                         className="btn btn-cancel"

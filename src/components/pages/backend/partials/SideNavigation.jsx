@@ -1,5 +1,5 @@
 import { imgPath } from "@/components/helpers/functions-general";
-import { LayoutDashboard, UtensilsCrossed } from "lucide-react";
+import { BoxIcon, LayoutDashboard, RatioIcon, UtensilsCrossed } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const SideNavigation = ({ menu }) => {
@@ -17,12 +17,12 @@ const SideNavigation = ({ menu }) => {
     {
       title: "Category",
       slug: "/admin/category",
-      icon: <UtensilsCrossed size={16} />,
+      icon: <BoxIcon size={16} />,
     },
     {
       title: "Level",
       slug: "/admin/level",
-      icon: <UtensilsCrossed size={16} />,
+      icon: <RatioIcon size={16} />,
     },
   ];
 
